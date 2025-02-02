@@ -6,6 +6,8 @@ services:
       - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./db/sql/ini:/docker-entrypoint-initdb.d
   redis:
     image: 'redis:latest'
     ports:
