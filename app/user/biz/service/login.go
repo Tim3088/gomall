@@ -2,7 +2,7 @@ package service
 
 import (
 	user "Go-Mall/rpc_gen/kitex_gen/user"
-	
+	"context"
 )
 
 type LoginService struct {
