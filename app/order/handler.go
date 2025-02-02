@@ -2,9 +2,8 @@ package main
 
 import (
 	"Go-Mall/app/order/biz/service"
-	order 
-	order "Go-Mall/rpc_gen/kitex_gen/order"
-	"Go-Mall/app/order/biz/service"
+	"Go-Mall/rpc_gen/kitex_gen/order"
+	"context"
 )
 
 // OrderServiceImpl implements the last service interface defined in the IDL.

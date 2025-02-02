@@ -2,9 +2,8 @@ package main
 
 import (
 	"Go-Mall/app/payment/biz/service"
-	payment 
-	payment "Go-Mall/rpc_gen/kitex_gen/payment"
-	"Go-Mall/app/payment/biz/service"
+	"Go-Mall/rpc_gen/kitex_gen/payment"
+	"context"
 )
 
 // PaymentServiceImpl implements the last service interface defined in the IDL.

@@ -2,9 +2,8 @@ package main
 
 import (
 	"Go-Mall/app/product/biz/service"
-	product 
-	product "Go-Mall/rpc_gen/kitex_gen/product"
-	"Go-Mall/app/product/biz/service"
+	"Go-Mall/rpc_gen/kitex_gen/product"
+	"context"
 )
 
 // ProductCatalogServiceImpl implements the last service interface defined in the IDL.

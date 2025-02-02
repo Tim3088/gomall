@@ -2,9 +2,8 @@ package main
 
 import (
 	"Go-Mall/app/auth/biz/service"
-	auth 
-	auth "Go-Mall/rpc_gen/kitex_gen/auth"
-	"Go-Mall/app/auth/biz/service"
+	"Go-Mall/rpc_gen/kitex_gen/auth"
+	"context"
 )
 
 // AuthServiceImpl implements the last service interface defined in the IDL.

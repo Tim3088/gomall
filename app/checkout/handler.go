@@ -2,9 +2,8 @@ package main
 
 import (
 	"Go-Mall/app/checkout/biz/service"
-	checkout 
-	checkout "Go-Mall/rpc_gen/kitex_gen/checkout"
-	"Go-Mall/app/checkout/biz/service"
+	"Go-Mall/rpc_gen/kitex_gen/checkout"
+	"context"
 )
 
 // CheckoutServiceImpl implements the last service interface defined in the IDL.
