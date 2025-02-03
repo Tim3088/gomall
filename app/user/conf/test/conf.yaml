@@ -1,7 +1,8 @@
 kitex:
   service: "user"
-  address: ":8888"
-  log_level: info
+  address: ":8881"
+  metrics_port: ":9991"
+  log_level: debug
   log_file_name: "log/kitex.log"
   log_max_size: 10
   log_max_age: 3
