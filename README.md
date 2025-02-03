@@ -70,33 +70,39 @@ cwgo client --type RPC --service payment  --module Go-Mall/rpc_gen --I ../idl --
 ```bash
 cwgo server --type RPC --service auth --module Go-Mall/app/auth --pass "-use Go-Mall/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/auth.proto
 ```
-### 用户服务
+#### 用户服务
 在./app/user目录下执行
 ```bash
 cwgo server --type RPC --service user --module Go-Mall/app/user --pass "-use Go-Mall/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/user.proto
 ```
-### 商品服务
+#### 商品服务
 在./app/product目录下执行
 ```bash
 cwgo server --type RPC --service product --module Go-Mall/app/product --pass "-use Go-Mall/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/product.proto
 ```
-### 购物车服务
+#### 购物车服务
 在./app/cart目录下执行
 ```bash
 cwgo server --type RPC --service cart --module Go-Mall/app/cart --pass "-use Go-Mall/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/cart.proto
 ```
-### 订单服务
+#### 订单服务
 在./app/order目录下执行
 ```bash
 cwgo server --type RPC --service order --module Go-Mall/app/order --pass "-use Go-Mall/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/order.proto
 ```
-### 结算服务
+#### 结算服务
 在./app/checkout目录下执行
 ```bash
 cwgo server --type RPC --service checkout --module Go-Mall/app/checkout --pass "-use Go-Mall/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/checkout.proto
 ```
-### 支付服务
+#### 支付服务
 在./app/payment目录下执行
 ```bash
 cwgo server --type RPC --service payment --module Go-Mall/app/payment --pass "-use Go-Mall/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/payment.proto
+```
+### 生成 前端界面 代码
+#### home 界面
+在./app/frontend目录下执行
+```bash
+cwgo server --type HTTP --idl ..\..\idl\frontend\home.proto --service frontend -module Go-Mall/app/frontend -I ../../idl
 ```
