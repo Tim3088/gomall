@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package client.user;
+
+import "api.proto";
+import "client/common.proto";
+
+option go_package = "/client/user";
+
+message RegisterReq {
+  string email = 1 [(api.form) = "email"];
+  string password = 2 [(api.form) = "password"];
+  string confirm_password = 3 [(api.form) = "confirm_password"];
+}
+
+message LoginReq {
+  string email = 1 [(api.form) = "email"];
+  string password = 2 [(api.form) = "password"];
+  string next = 3 [(api.query) = "next"];
+}
+
+service UserService {
+  rpc register(RegisterReq) returns (common.Empty) {
+    option (api.post) = "/user/register";
+  }
+  rpc login(LoginReq) returns (common.Empty) {
+    option (api.post) = "/user/login";
+  }
+}

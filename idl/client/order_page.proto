@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package client.order;
+
+import "api.proto";
+import "client/common.proto";
+
+option go_package = "/client/order";
+
+service OrderService {
+  rpc OrderList(common.Empty) returns (common.Empty) {
+    option (api.get) = "/order";
+  }
+}
