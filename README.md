@@ -126,3 +126,18 @@ cwgo server --type HTTP --idl ..\..\idl\client\order_page.proto --service client
 ```bash
 cwgo server --type HTTP --idl ..\..\idl\client\checkout_page.proto --service client -module Go-Mall/app/client -I ../../idl
 ```
+## 启动方式
+### 启动项目根目录下的 docker-compose.yml
+```bash
+docker-compose up
+```
+### 启动相关服务（服务注册）
+在各服务目录目录下执行
+```bash
+go run main.go
+```
+### 启动客户端对外接口（服务发现）
+在./app/client目录下执行
+```bash
+go run main.go
+```
