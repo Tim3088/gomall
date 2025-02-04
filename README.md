@@ -100,9 +100,29 @@ cwgo server --type RPC --service checkout --module Go-Mall/app/checkout --pass "
 ```bash
 cwgo server --type RPC --service payment --module Go-Mall/app/payment --pass "-use Go-Mall/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/payment.proto
 ```
-### 生成 前端界面 代码
-#### home 界面
-在./app/frontend目录下执行
+### 生成 客户端对外接口 代码
+#### user_page
+在./app/client目录下执行
 ```bash
-cwgo server --type HTTP --idl ..\..\idl\frontend\home.proto --service frontend -module Go-Mall/app/frontend -I ../../idl
+cwgo server --type HTTP --idl ..\..\idl\client\user_page.proto --service client -module Go-Mall/app/client -I ../../idl
+```
+#### product_page
+在./app/client目录下执行
+```bash
+cwgo server --type HTTP --idl ..\..\idl\client\product_page.proto --service client -module Go-Mall/app/client -I ../../idl
+```
+#### cart_page
+在./app/client目录下执行
+```bash
+cwgo server --type HTTP --idl ..\..\idl\client\cart_page.proto --service client -module Go-Mall/app/client -I ../../idl
+```
+#### order_page
+在./app/client目录下执行
+```bash
+cwgo server --type HTTP --idl ..\..\idl\client\order_page.proto --service client -module Go-Mall/app/client -I ../../idl
+```
+#### checkout_page
+在./app/client目录下执行
+```bash
+cwgo server --type HTTP --idl ..\..\idl\client\checkout_page.proto --service client -module Go-Mall/app/client -I ../../idl
 ```
