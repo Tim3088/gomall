@@ -7,6 +7,7 @@ import (
 	rpcuser "Go-Mall/rpc_gen/kitex_gen/user"
 	"context"
 	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/hertz-contrib/sessions"
 )
 
 type LoginService struct {
@@ -28,6 +29,9 @@ func (h *LoginService) Run(req *user.LoginReq) (resp *LoginResp, err error) {
 		return nil, err
 	}
 
+	session := sessions.Default(h.RequestContext)
+	session.Set("user_id", res.UserId)
+	err = session.Save()
 	clientutils.MustHandleError(err)
 
 	if err != nil {
