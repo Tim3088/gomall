@@ -28,7 +28,7 @@ mkdir rpc_gen
 mkdir -p auth user product cart order checkout payment
 ```
 ## 根据接口文档（位于idl目录下）生成代码
-### 生成 客户端 代码
+### 生成 RPC客户端 代码
 #### 认证客户端
 在./rpc_gen目录下执行
 ```bash
@@ -64,7 +64,7 @@ cwgo client --type RPC --service checkout  --module Go-Mall/rpc_gen --I ../idl -
 ```bash
 cwgo client --type RPC --service payment  --module Go-Mall/rpc_gen --I ../idl --idl ..\idl\payment.proto
 ```
-### 生成 服务端 代码
+### 生成 RPC服务端 代码
 #### 认证服务
 在./app/auth目录下执行
 ```bash
@@ -100,7 +100,7 @@ cwgo server --type RPC --service checkout --module Go-Mall/app/checkout --pass "
 ```bash
 cwgo server --type RPC --service payment --module Go-Mall/app/payment --pass "-use Go-Mall/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/payment.proto
 ```
-### 生成 客户端对外接口 代码
+### 生成 HTTP服务端 代码
 #### user_page
 在./app/client目录下执行
 ```bash
