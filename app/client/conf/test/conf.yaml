@@ -1,6 +1,7 @@
 hertz:
   service: "client"
   address: ":8080"
+  metrics_port: ":8090"
   log_level: info
   log_file_name: "log/hertz.log"
   log_max_size: 10

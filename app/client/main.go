@@ -4,6 +4,7 @@ import (
 	"Go-Mall/app/client/biz/router"
 	"Go-Mall/app/client/conf"
 	"Go-Mall/app/client/infra/rpc"
+	clientutils "Go-Mall/app/client/utils"
 	"Go-Mall/common/mtl"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	hertzprom "github.com/hertz-contrib/monitor-prometheus"
@@ -13,12 +14,22 @@ import (
 	"os"
 )
 
+var (
+	ServiceName  = clientutils.ServiceName
+	MetricsPort  = conf.GetConf().Hertz.MetricsPort
+	RegistryAddr = conf.GetConf().Hertz.RegistryAddr
+)
+
 func main() {
 	_ = godotenv.Load()
+
+	// 初始化prometheus
+	mtl.InitMetric(ServiceName, MetricsPort, RegistryAddr)
 	rpc.InitClient()
 
 	address := conf.GetConf().Hertz.Address
 
+	// 对当前服务设置 prometheus 监控
 	h := server.New(server.WithHostPorts(address), server.WithTracer(
 		hertzprom.NewServerTracer(
 			"",

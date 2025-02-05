@@ -15,7 +15,10 @@ import (
 	"strings"
 )
 
-var serviceName = conf.GetConf().Kitex.Service
+var (
+	serviceName  = conf.GetConf().Kitex.Service
+	RegistryAddr = conf.GetConf().Registry.RegistryAddress[0]
+)
 
 func main() {
 	_ = godotenv.Load()
@@ -27,7 +30,8 @@ func main() {
 		MaxAge:     conf.GetConf().Kitex.LogMaxAge,
 	})
 	mtl.InitTracing(serviceName)
-	mtl.InitMetric(serviceName, conf.GetConf().Kitex.MetricsPort, conf.GetConf().Registry.RegistryAddress[0])
+	// 初始化监控
+	mtl.InitMetric(serviceName, conf.GetConf().Kitex.MetricsPort, RegistryAddr)
 	dal.Init()
 	opts := kitexInit()
 
@@ -46,11 +50,16 @@ func kitexInit() (opts []server.Option) {
 		localIp := utils.MustGetLocalIPv4()
 		address = localIp + address
 	}
+
+	// 初始化服务
 	addr, err := net.ResolveTCPAddr("tcp", address)
 	if err != nil {
 		panic(err)
 	}
-
-	opts = append(opts, server.WithServiceAddr(addr), server.WithSuite(serversuite.CommonServerSuite{CurrentServiceName: serviceName, RegistryAddr: conf.GetConf().Registry.RegistryAddress[0]}))
+	opts = append(opts,
+		server.WithServiceAddr(addr),
+		server.WithSuite(serversuite.CommonServerSuite{
+			CurrentServiceName: serviceName,
+			RegistryAddr:       RegistryAddr}))
 	return
 }
