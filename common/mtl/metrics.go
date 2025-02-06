@@ -1,6 +1,9 @@
 package mtl
 
 import (
+	"Go-Mall/common/utils"
+	"fmt"
+	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/cloudwego/kitex/pkg/registry"
 	"github.com/cloudwego/kitex/server"
 	consul "github.com/kitex-contrib/registry-consul"
@@ -23,13 +26,17 @@ func InitMetric(serviceName string, metricsPort string, registryAddr string) {
 	// 根据consul地址创建consul注册器
 	r, _ := consul.NewConsulRegister(registryAddr)
 
-	// 将prometheus地址转化为TCP地址
-	addr, _ := net.ResolveTCPAddr("tcp", metricsPort)
+	// 获取本地ip
+	localIp := utils.MustGetLocalIPv4()
+	ip, err := net.ResolveTCPAddr("tcp", fmt.Sprintf("%s%s", localIp, metricsPort))
+	if err != nil {
+		hlog.Error(err)
+	}
 
 	// 注册consul服务
 	registryInfo := &registry.Info{
 		ServiceName: "prometheus",
-		Addr:        addr,
+		Addr:        ip,
 		Weight:      1,
 		Tags:        map[string]string{"service": serviceName},
 	}
