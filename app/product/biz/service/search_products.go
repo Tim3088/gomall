@@ -1,6 +1,8 @@
 package service
 
 import (
+	"Go-Mall/app/product/biz/dal/mysql"
+	"Go-Mall/app/product/biz/model"
 	product "Go-Mall/rpc_gen/kitex_gen/product"
 	"context"
 )
@@ -15,6 +17,19 @@ func NewSearchProductsService(ctx context.Context) *SearchProductsService {
 // Run create note info
 func (s *SearchProductsService) Run(req *product.SearchProductsReq) (resp *product.SearchProductsResp, err error) {
 	// Finish your business logic.
-
-	return
+	productQuery := model.NewProductQuery(s.ctx, mysql.DB)
+	products, err := productQuery.SearchProduct(req.Query)
+	var results []*product.Product
+	for _, v := range products {
+		results = append(results, &product.Product{
+			Id:          uint32(v.ID),
+			Name:        v.Name,
+			Description: v.Description,
+			Picture:     v.Picture,
+			Price:       v.Price,
+		})
+	}
+	return &product.SearchProductsResp{
+		Results: results,
+	}, nil
 }
