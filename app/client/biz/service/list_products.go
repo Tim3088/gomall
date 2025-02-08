@@ -1,9 +1,11 @@
 package service
 
 import (
+	"Go-Mall/app/client/hertz_gen/client/product"
+	"Go-Mall/app/client/infra/rpc"
+	rpcproduct "Go-Mall/rpc_gen/kitex_gen/product"
 	"context"
 
-	common "Go-Mall/app/client/hertz_gen/client/common"
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
@@ -16,11 +18,14 @@ func NewListProductsService(Context context.Context, RequestContext *app.Request
 	return &ListProductsService{RequestContext: RequestContext, Context: Context}
 }
 
-func (h *ListProductsService) Run(req *common.Empty) (resp *common.Empty, err error) {
-	//defer func() {
-	// hlog.CtxInfof(h.Context, "req = %+v", req)
-	// hlog.CtxInfof(h.Context, "resp = %+v", resp)
-	//}()
-	// todo edit your code
-	return
+type ListProductResp struct {
+	Products []*rpcproduct.Product `json:"products"`
+}
+
+func (h *ListProductsService) Run(req *product.ListProductsReq) (resp *ListProductResp, err error) {
+	res, err := rpc.ProductClient.ListProducts(h.Context, &rpcproduct.ListProductsReq{Page: req.GetPage(), PageSize: req.GetPageSize(), CategoryName: req.GetCategoryName()})
+	if err != nil {
+		return nil, err
+	}
+	return &ListProductResp{Products: res.Products}, nil
 }
