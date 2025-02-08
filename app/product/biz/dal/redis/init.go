@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"Go-Mall/app/product/conf"
-	
+	"github.com/redis/go-redis/v9"
 )
 
 var (
