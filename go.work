@@ -10,4 +10,5 @@ use (
 	./app/user
 	./common
 	rpc_gen
+	app/auth
 )
