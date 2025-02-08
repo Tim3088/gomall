@@ -8,6 +8,8 @@ require (
 	Go-Mall/common v0.0.0-00010101000000-000000000000
 	github.com/cloudwego/hertz v0.9.5
 	github.com/cloudwego/kitex v0.12.1
+	github.com/hertz-contrib/casbin v0.1.0
+	github.com/hertz-contrib/jwt v1.0.2
 	github.com/hertz-contrib/monitor-prometheus v0.1.3
 	github.com/hertz-contrib/sessions v1.0.3
 	github.com/joho/godotenv v1.5.1
@@ -21,11 +23,15 @@ require (
 )
 
 require (
+	github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
 	github.com/bytedance/gopkg v0.1.1 // indirect
 	github.com/bytedance/sonic v1.12.5 // indirect
 	github.com/bytedance/sonic/loader v0.2.0 // indirect
+	github.com/casbin/casbin/v2 v2.103.0 // indirect
+	github.com/casbin/govaluate v1.3.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
@@ -47,7 +53,9 @@ require (
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.4.1 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
+	github.com/gomodule/redigo v1.8.9 // indirect
 	github.com/google/pprof v0.0.0-20240727154555-813a5fbdbec8 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/context v1.1.2 // indirect

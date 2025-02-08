@@ -7,7 +7,6 @@ import (
 	rpcuser "Go-Mall/rpc_gen/kitex_gen/user"
 	"context"
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/hertz-contrib/sessions"
 )
 
 type RegisterService struct {
@@ -20,7 +19,7 @@ func NewRegisterService(Context context.Context, RequestContext *app.RequestCont
 }
 
 func (h *RegisterService) Run(req *user.RegisterReq) (resp *common.Empty, err error) {
-	res, err := rpc.UserClient.Register(h.Context, &rpcuser.RegisterReq{
+	_, err = rpc.UserClient.Register(h.Context, &rpcuser.RegisterReq{
 		Email:           req.Email,
 		Password:        req.Password,
 		ConfirmPassword: req.Password,
@@ -29,11 +28,5 @@ func (h *RegisterService) Run(req *user.RegisterReq) (resp *common.Empty, err er
 		return nil, err
 	}
 
-	session := sessions.Default(h.RequestContext)
-	session.Set("user_id", res.UserId)
-	err = session.Save()
-	if err != nil {
-		return nil, err
-	}
 	return
 }

@@ -7,6 +7,7 @@ toolchain go1.23.2
 replace github.com/apache/thrift => github.com/apache/thrift v0.13.0
 
 require (
+	github.com/cloudwego/hertz v0.9.5
 	github.com/cloudwego/kitex v0.12.1
 	github.com/kitex-contrib/config-consul v0.1.4
 	github.com/kitex-contrib/monitor-prometheus v0.2.0
