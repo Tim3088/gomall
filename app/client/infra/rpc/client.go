@@ -4,6 +4,7 @@ import (
 	"Go-Mall/app/client/conf"
 	clientutils "Go-Mall/app/client/utils"
 	"Go-Mall/common/clientsuite"
+	"Go-Mall/rpc_gen/kitex_gen/auth/authservice"
 	"Go-Mall/rpc_gen/kitex_gen/user/userservice"
 	"github.com/cloudwego/kitex/client"
 	"sync"
@@ -11,6 +12,7 @@ import (
 
 var (
 	UserClient userservice.Client
+	AuthClient authservice.Client
 
 	once         sync.Once
 	err          error
@@ -26,10 +28,16 @@ func InitClient() {
 			CurrentServiceName: clientutils.ServiceName,
 		})
 		initUserClient()
+		initAuthClient()
 	})
 }
 
 func initUserClient() {
 	UserClient, err = userservice.NewClient("user", commonSuite)
+	clientutils.MustHandleError(err)
+}
+
+func initAuthClient() {
+	AuthClient, err = authservice.NewClient("auth", commonSuite)
 	clientutils.MustHandleError(err)
 }
