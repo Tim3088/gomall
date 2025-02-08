@@ -1,10 +1,9 @@
 package service
 
 import (
-	"Go-Mall/app/client/biz/utils"
 	"Go-Mall/app/client/hertz_gen/client/user"
 	"Go-Mall/app/client/infra/rpc"
-	"Go-Mall/app/user/biz/model"
+	rpcauth "Go-Mall/rpc_gen/kitex_gen/auth"
 	rpcuser "Go-Mall/rpc_gen/kitex_gen/user"
 	"context"
 	"github.com/cloudwego/hertz/pkg/app"
@@ -31,9 +30,12 @@ func (h *LoginService) Run(req *user.LoginReq) (resp *LoginResp, err error) {
 		return nil, err
 	}
 
-	token, expire, err := utils.JwtUtil.TokenGenerator(&model.User{Base: model.Base{ID: int(res.UserId)}})
+	resWithToken, err := rpc.AuthClient.DeliverTokenByRPC(h.Context, &rpcauth.DeliverTokenReq{UserId: int32(int(res.UserId))})
 	if err != nil {
 		return nil, err
 	}
-	return &LoginResp{Token: token, Expire: expire.In(time.FixedZone("CST", 8*3600)).Format(time.RFC3339)}, nil
+
+	// 过期时间为24小时
+	expire := time.Now().Add(time.Hour * 24).Format("2006-01-02 15:04:05")
+	return &LoginResp{Token: resWithToken.Token, Expire: expire}, nil
 }
