@@ -5,6 +5,7 @@ import (
 	clientutils "Go-Mall/app/client/utils"
 	"Go-Mall/common/clientsuite"
 	"Go-Mall/rpc_gen/kitex_gen/auth/authservice"
+	"Go-Mall/rpc_gen/kitex_gen/product/productcatalogservice"
 	"Go-Mall/rpc_gen/kitex_gen/user/userservice"
 	"github.com/cloudwego/kitex/client"
 	"sync"
@@ -13,7 +14,7 @@ import (
 var (
 	UserClient    userservice.Client
 	ProductClient productcatalogservice.Client
-	AuthClient authservice.Client
+	AuthClient    authservice.Client
 
 	once         sync.Once
 	err          error

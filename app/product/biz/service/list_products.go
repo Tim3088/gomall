@@ -19,19 +19,21 @@ func (s *ListProductsService) Run(req *product.ListProductsReq) (resp *product.L
 	// Finish your business logic.
 	categoryQuery := model.NewCategoryQuery(s.ctx, mysql.DB)
 
-	c, err := categoryQuery.GetProductsByCategoryName(req.CategoryName)
+	c, err := categoryQuery.GetProductsByCategoryName(
+		req.CategoryName,
+		int(req.Page),
+		int(req.PageSize),
+	)
 
 	resp = &product.ListProductsResp{}
-	for _, v1 := range c {
-		for _, v := range v1.Products {
-			resp.Products = append(resp.Products, &product.Product{
-				Id:          uint32(v.ID),
-				Name:        v.Name,
-				Description: v.Description,
-				Picture:     v.Picture,
-				Price:       v.Price,
-			})
-		}
+	for _, v := range c {
+		resp.Products = append(resp.Products, &product.Product{
+			Id:          uint32(v.ID),
+			Name:        v.Name,
+			Description: v.Description,
+			Picture:     v.Picture,
+			Price:       v.Price,
+		})
 	}
 	return resp, nil
 }
