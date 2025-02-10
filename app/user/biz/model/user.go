@@ -10,6 +10,7 @@ type User struct {
 	Base
 	Email          string `gorm:"unique"`
 	PasswordHashed string
+	Role           uint32
 }
 
 func (u User) TableName() string {

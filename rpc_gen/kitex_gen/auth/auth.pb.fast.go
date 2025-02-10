@@ -19,6 +19,11 @@ func (x *DeliverTokenReq) FastRead(buf []byte, _type int8, number int32) (offset
 		if err != nil {
 			goto ReadFieldError
 		}
+	case 2:
+		offset, err = x.fastReadField2(buf, _type)
+		if err != nil {
+			goto ReadFieldError
+		}
 	default:
 		offset, err = fastpb.Skip(buf, _type, number)
 		if err != nil {
@@ -33,6 +38,11 @@ ReadFieldError:
 }
 
 func (x *DeliverTokenReq) fastReadField1(buf []byte, _type int8) (offset int, err error) {
+	x.Role, offset, err = fastpb.ReadUint32(buf, _type)
+	return offset, err
+}
+
+func (x *DeliverTokenReq) fastReadField2(buf []byte, _type int8) (offset int, err error) {
 	x.UserId, offset, err = fastpb.ReadInt32(buf, _type)
 	return offset, err
 }
@@ -113,7 +123,7 @@ ReadFieldError:
 }
 
 func (x *VerifyResp) fastReadField1(buf []byte, _type int8) (offset int, err error) {
-	x.Role, offset, err = fastpb.ReadString(buf, _type)
+	x.Role, offset, err = fastpb.ReadUint32(buf, _type)
 	return offset, err
 }
 
@@ -127,14 +137,23 @@ func (x *DeliverTokenReq) FastWrite(buf []byte) (offset int) {
 		return offset
 	}
 	offset += x.fastWriteField1(buf[offset:])
+	offset += x.fastWriteField2(buf[offset:])
 	return offset
 }
 
 func (x *DeliverTokenReq) fastWriteField1(buf []byte) (offset int) {
+	if x.Role == 0 {
+		return offset
+	}
+	offset += fastpb.WriteUint32(buf[offset:], 1, x.GetRole())
+	return offset
+}
+
+func (x *DeliverTokenReq) fastWriteField2(buf []byte) (offset int) {
 	if x.UserId == 0 {
 		return offset
 	}
-	offset += fastpb.WriteInt32(buf[offset:], 1, x.GetUserId())
+	offset += fastpb.WriteInt32(buf[offset:], 2, x.GetUserId())
 	return offset
 }
 
@@ -180,10 +199,10 @@ func (x *VerifyResp) FastWrite(buf []byte) (offset int) {
 }
 
 func (x *VerifyResp) fastWriteField1(buf []byte) (offset int) {
-	if x.Role == "" {
+	if x.Role == 0 {
 		return offset
 	}
-	offset += fastpb.WriteString(buf[offset:], 1, x.GetRole())
+	offset += fastpb.WriteUint32(buf[offset:], 1, x.GetRole())
 	return offset
 }
 
@@ -200,14 +219,23 @@ func (x *DeliverTokenReq) Size() (n int) {
 		return n
 	}
 	n += x.sizeField1()
+	n += x.sizeField2()
 	return n
 }
 
 func (x *DeliverTokenReq) sizeField1() (n int) {
+	if x.Role == 0 {
+		return n
+	}
+	n += fastpb.SizeUint32(1, x.GetRole())
+	return n
+}
+
+func (x *DeliverTokenReq) sizeField2() (n int) {
 	if x.UserId == 0 {
 		return n
 	}
-	n += fastpb.SizeInt32(1, x.GetUserId())
+	n += fastpb.SizeInt32(2, x.GetUserId())
 	return n
 }
 
@@ -253,10 +281,10 @@ func (x *VerifyResp) Size() (n int) {
 }
 
 func (x *VerifyResp) sizeField1() (n int) {
-	if x.Role == "" {
+	if x.Role == 0 {
 		return n
 	}
-	n += fastpb.SizeString(1, x.GetRole())
+	n += fastpb.SizeUint32(1, x.GetRole())
 	return n
 }
 
@@ -269,7 +297,8 @@ func (x *VerifyResp) sizeField2() (n int) {
 }
 
 var fieldIDToName_DeliverTokenReq = map[int32]string{
-	1: "UserId",
+	1: "Role",
+	2: "UserId",
 }
 
 var fieldIDToName_VerifyTokenReq = map[int32]string{

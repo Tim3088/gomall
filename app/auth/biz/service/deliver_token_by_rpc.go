@@ -20,7 +20,7 @@ func (s *DeliverTokenByRPCService) Run(req *auth.DeliverTokenReq) (resp *auth.De
 	// 生成 JWT 令牌
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": req.UserId,
-		"role":    "user",
+		"role":    req.Role,
 		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	})
 

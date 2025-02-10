@@ -23,6 +23,7 @@ func (h *RegisterService) Run(req *user.RegisterReq) (resp *common.Empty, err er
 		Email:           req.Email,
 		Password:        req.Password,
 		ConfirmPassword: req.Password,
+		Role:            req.Role,
 	})
 	if err != nil {
 		return nil, err
