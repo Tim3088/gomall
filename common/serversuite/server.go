@@ -56,8 +56,6 @@ func (s CommonServerSuite) Options() []server.Option {
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{
 			ServiceName: s.CurrentServiceName,
 		}),
-		// 设置链路追踪
-		server.WithSuite(tracing.NewServerSuite()),
 		// 对当前服务设置 prometheus 监控
 		server.WithTracer(prometheus.NewServerTracer(
 			"",

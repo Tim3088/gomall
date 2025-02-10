@@ -7,4 +7,5 @@ import (
 // RegisterMiddlewares 注册所有中间件
 func RegisterMiddlewares(h *server.Hertz) {
 	RegisterCasbinMiddleware()
+	RegisterLogMiddleware()
 }
