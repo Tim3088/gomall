@@ -5,6 +5,7 @@ import (
 	"Go-Mall/app/order/conf"
 	"fmt"
 	"os"
+	"gorm.io/plugin/opentelemetry/tracing"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -31,5 +32,10 @@ func Init() {
 		if err != nil {
 			return
 		}
+	}
+
+	// 链路追踪
+	if err := DB.Use(tracing.NewPlugin(tracing.WithoutMetrics())); err != nil {
+		panic(err)
 	}
 }

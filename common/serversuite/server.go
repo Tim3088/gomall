@@ -9,7 +9,6 @@ import (
 	"github.com/kitex-contrib/config-consul/consul"
 	consulServer "github.com/kitex-contrib/config-consul/server"
 	prometheus "github.com/kitex-contrib/monitor-prometheus"
-	"github.com/kitex-contrib/obs-opentelemetry/provider"
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	registryconsul "github.com/kitex-contrib/registry-consul"
 	"os"
@@ -52,15 +51,12 @@ func (s CommonServerSuite) Options() []server.Option {
 		}
 	}
 
-	_ = provider.NewOpenTelemetryProvider(provider.WithSdkTracerProvider(mtl.TracerProvider),
-		provider.WithEnableMetrics(false))
-
 	opts = append(opts,
 		// 设置 Server 侧的 Service 信息，用于服务注册
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{
 			ServiceName: s.CurrentServiceName,
 		}),
-		// 设置 tracing
+		// 设置链路追踪
 		server.WithSuite(tracing.NewServerSuite()),
 		// 对当前服务设置 prometheus 监控
 		server.WithTracer(prometheus.NewServerTracer(
@@ -69,6 +65,8 @@ func (s CommonServerSuite) Options() []server.Option {
 			prometheus.WithDisableServer(true),
 			prometheus.WithRegistry(mtl.Registry),
 		)),
+		// 设置链路追踪
+		server.WithSuite(tracing.NewServerSuite()),
 	)
 
 	return opts

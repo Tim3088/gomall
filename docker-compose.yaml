@@ -16,6 +16,13 @@ services:
     image: "hashicorp/consul:latest"
     ports:
       - "8500:8500"
+  jaeger-all-in-one:
+    container_name: jaeger-all-in-one
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
   prometheus:
     image: prom/prometheus:latest
     volumes:

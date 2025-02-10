@@ -6,6 +6,7 @@ import (
 	"Go-Mall/common/serversuite"
 	"Go-Mall/common/utils"
 	"Go-Mall/rpc_gen/kitex_gen/auth/authservice"
+	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/server"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -27,6 +28,11 @@ func main() {
 	})
 	// 初始化监控
 	mtl.InitMetric(serviceName, conf.GetConf().Kitex.MetricsPort, RegistryAddr)
+
+	// 初始化链路追踪
+	p := mtl.InitTracing(serviceName)
+	defer p.Shutdown(context.Background()) // 在服务关闭前上传剩余链路追踪数据
+
 	opts := kitexInit()
 
 	svr := authservice.NewServer(new(AuthServiceImpl), opts...)
