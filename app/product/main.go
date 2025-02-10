@@ -7,10 +7,11 @@ import (
 	"Go-Mall/common/serversuite"
 	"Go-Mall/common/utils"
 	"Go-Mall/rpc_gen/kitex_gen/product/productcatalogservice"
+	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/server"
 	"github.com/joho/godotenv"
-	"github.com/kitex-contrib/obs-opentelemetry/provider"
+	"gopkg.in/natefinch/lumberjack.v2"
 	"net"
 	"strings"
 )
@@ -22,6 +23,21 @@ var (
 
 func main() {
 	_ = godotenv.Load()
+
+	mtl.InitLog(&lumberjack.Logger{
+		Filename:   conf.GetConf().Kitex.LogFileName,
+		MaxSize:    conf.GetConf().Kitex.LogMaxSize,
+		MaxBackups: conf.GetConf().Kitex.LogMaxBackups,
+		MaxAge:     conf.GetConf().Kitex.LogMaxAge,
+	})
+	mtl.InitTracing(serviceName)
+	// 初始化监控
+	mtl.InitMetric(serviceName, conf.GetConf().Kitex.MetricsPort, RegistryAddr)
+
+	// 初始化链路追踪
+	p := mtl.InitTracing(serviceName)
+	defer p.Shutdown(context.Background()) // 在服务关闭前上传剩余链路追踪数据
+
 	dal.Init()
 	opts := kitexInit()
 
@@ -46,15 +62,10 @@ func kitexInit() (opts []server.Option) {
 	if err != nil {
 		panic(err)
 	}
-	opts = append(opts, server.WithServiceAddr(addr))
-
-	_ = provider.NewOpenTelemetryProvider(
-		provider.WithSdkTracerProvider(mtl.TracerProvider),
-		provider.WithEnableMetrics(false),
-	)
-
-	opts = append(opts, server.WithSuite(serversuite.CommonServerSuite{
-		CurrentServiceName: serviceName,
-		RegistryAddr:       RegistryAddr}))
+	opts = append(opts,
+		server.WithServiceAddr(addr),
+		server.WithSuite(serversuite.CommonServerSuite{
+			CurrentServiceName: serviceName,
+			RegistryAddr:       RegistryAddr}))
 	return
 }

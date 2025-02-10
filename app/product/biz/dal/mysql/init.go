@@ -3,6 +3,7 @@ package mysql
 import (
 	"Go-Mall/app/product/biz/model"
 	"fmt"
+	"gorm.io/plugin/opentelemetry/tracing"
 	"os"
 
 	"Go-Mall/app/product/conf"
@@ -26,6 +27,12 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
+
+	// 链路追踪
+	if err := DB.Use(tracing.NewPlugin(tracing.WithoutMetrics())); err != nil {
+		panic(err)
+	}
+
 	if os.Getenv("GO_ENV") != "online" {
 		needDemoData := !DB.Migrator().HasTable(&model.Product{})
 		err := DB.AutoMigrate(

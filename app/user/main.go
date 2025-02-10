@@ -7,6 +7,7 @@ import (
 	"Go-Mall/common/serversuite"
 	"Go-Mall/common/utils"
 	"Go-Mall/rpc_gen/kitex_gen/user/userservice"
+	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/server"
 	"github.com/joho/godotenv"
@@ -29,9 +30,13 @@ func main() {
 		MaxBackups: conf.GetConf().Kitex.LogMaxBackups,
 		MaxAge:     conf.GetConf().Kitex.LogMaxAge,
 	})
-	mtl.InitTracing(serviceName)
 	// 初始化监控
 	mtl.InitMetric(serviceName, conf.GetConf().Kitex.MetricsPort, RegistryAddr)
+
+	// 初始化链路追踪
+	p := mtl.InitTracing(serviceName)
+	defer p.Shutdown(context.Background()) // 在服务关闭前上传剩余链路追踪数据
+
 	dal.Init()
 	opts := kitexInit()
 
