@@ -3,6 +3,7 @@
 package product
 
 import (
+	"Go-Mall/app/client/middleware"
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
@@ -13,7 +14,9 @@ func rootMw() []app.HandlerFunc {
 
 func _getproductMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		middleware.CasbinAuth.RequiresRoles("member"),
+	}
 }
 
 func _listproductsMw() []app.HandlerFunc {

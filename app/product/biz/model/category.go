@@ -1,13 +1,12 @@
 package model
 
 import (
-	model2 "Go-Mall/app/user/biz/model"
 	"context"
 	"gorm.io/gorm"
 )
 
 type Category struct {
-	model2.Base
+	Base
 	Name        string `json:"name"`
 	Description string `json:"description"`
 

@@ -30,7 +30,8 @@ func (h *LoginService) Run(req *user.LoginReq) (resp *LoginResp, err error) {
 		return nil, err
 	}
 
-	resWithToken, err := rpc.AuthClient.DeliverTokenByRPC(h.Context, &rpcauth.DeliverTokenReq{UserId: int32(int(res.UserId))})
+	resWithToken, err := rpc.AuthClient.DeliverTokenByRPC(h.Context,
+		&rpcauth.DeliverTokenReq{UserId: res.UserId, Role: res.Role})
 	if err != nil {
 		return nil, err
 	}

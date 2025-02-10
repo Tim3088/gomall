@@ -19,7 +19,7 @@ func NewRegisterService(ctx context.Context) *RegisterService {
 // Run create note info
 func (s *RegisterService) Run(req *user.RegisterReq) (resp *user.RegisterResp, err error) {
 	// Finish your business logic.
-	if req.Email == "" || req.Password == "" || req.ConfirmPassword == "" {
+	if req.Email == "" || req.Password == "" || req.ConfirmPassword == "" || req.Role == 0 {
 		return nil, errors.New("邮箱或密码不能为空")
 	}
 	if req.Password != req.ConfirmPassword {
@@ -32,6 +32,7 @@ func (s *RegisterService) Run(req *user.RegisterReq) (resp *user.RegisterResp, e
 	newUser := &model.User{
 		Email:          req.Email,
 		PasswordHashed: string(hashedPassword),
+		Role:           req.Role,
 	}
 	if err = model.Create(mysql.DB, s.ctx, newUser); err != nil {
 		return nil, err

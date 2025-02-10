@@ -10,7 +10,8 @@ service AuthService {
 }
 
 message DeliverTokenReq {
-  int32  user_id= 1;
+  uint32 role = 1;
+  int32 user_id = 2;
 }
 
 message VerifyTokenReq {
@@ -22,6 +23,6 @@ message DeliveryResp {
 }
 
 message VerifyResp {
-  string role = 1;
+  uint32 role = 1;
   int32 user_id = 2;
 }

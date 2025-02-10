@@ -30,7 +30,7 @@ func (s *VerifyTokenByRPCService) Run(req *auth.VerifyTokenReq) (resp *auth.Veri
 	// 构建响应
 	resp = &auth.VerifyResp{
 		UserId: int32(claims["user_id"].(float64)),
-		Role:   claims["role"].(string),
+		Role:   uint32(claims["role"].(float64)),
 	}
 	return resp, nil
 }
