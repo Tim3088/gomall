@@ -3,7 +3,6 @@ package middleware
 import (
 	"Go-Mall/app/client/conf"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
-	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/server"
 	hertzobslogrus "github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
 	"go.uber.org/zap/zapcore"
@@ -39,7 +38,7 @@ func RegisterLogMiddleware() {
 	}
 
 	// 设置日志输出
-	klog.SetOutput(asyncWriter)
+	hlog.SetOutput(asyncWriter)
 	server.RegisterShutdownHook(func() {
 		asyncWriter.Sync()
 	})

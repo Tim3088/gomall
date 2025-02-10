@@ -47,7 +47,7 @@ func main() {
 	h.Use(hertztracing.ServerMiddleware(cfg))
 
 	// 注册中间件
-	middleware.RegisterMiddlewares(h)
+	middleware.RegisterMiddlewares()
 
 	router.GeneratedRegister(h)
 

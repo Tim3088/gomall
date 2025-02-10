@@ -3,7 +3,6 @@ package mtl
 import (
 	"Go-Mall/common/utils"
 	"fmt"
-	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/cloudwego/kitex/pkg/registry"
 	"github.com/cloudwego/kitex/server"
 	consul "github.com/kitex-contrib/registry-consul"
@@ -28,10 +27,7 @@ func InitMetric(serviceName string, metricsPort string, registryAddr string) {
 
 	// 获取本地ip
 	localIp := utils.MustGetLocalIPv4()
-	ip, err := net.ResolveTCPAddr("tcp", fmt.Sprintf("%s%s", localIp, metricsPort))
-	if err != nil {
-		hlog.Error(err)
-	}
+	ip, _ := net.ResolveTCPAddr("tcp", fmt.Sprintf("%s%s", localIp, metricsPort))
 
 	// 注册consul服务
 	registryInfo := &registry.Info{
