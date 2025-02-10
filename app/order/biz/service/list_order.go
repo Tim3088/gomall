@@ -47,6 +47,7 @@ func (s *ListOrderService) Run(req *order.ListOrderReq) (resp *order.ListOrderRe
 				ZipCode:       v.Consignee.ZipCode,
 			},
 			OrderItems: items,
+			CreatedAt:  v.CreatedAt.Format("2006-01-02 15:04:05.000"),
 		})
 	}
 	resp = &order.ListOrderResp{

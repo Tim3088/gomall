@@ -7,8 +7,42 @@ import "client/common.proto";
 
 option go_package = "/client/order";
 
+message ListOrderReq {
+  uint32 user_id = 1 [(api.query) = "user_id"];
+}
+
+message Address {
+  string street_address = 1;
+  string city = 2;
+  string state = 3;
+  string country = 4;
+  int32 zip_code = 5;
+}
+
+message CartItem {
+  uint32 product_id = 1;
+  int32  quantity = 2;
+}
+
+message OrderItem {
+  CartItem item = 1;
+  float cost = 2;
+}
+
+message PlaceOrderReq {
+  uint32 user_id = 1;
+  string user_currency = 2;
+
+  Address address = 3;
+  string email = 4;
+  repeated OrderItem order_items = 5;
+}
+
 service OrderService {
-  rpc OrderList(common.Empty) returns (common.Empty) {
-    option (api.get) = "/order";
+  rpc OrderList(ListOrderReq) returns (common.Empty) {
+    option (api.get) = "/order/list";
+  }
+  rpc PlaceOrder(PlaceOrderReq) returns (common.Empty) {
+    option (api.post) = "/order/place";
   }
 }

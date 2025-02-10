@@ -53,7 +53,7 @@ message Order {
   string user_currency = 4;
   Address address = 5;
   string email = 6;
-  int32 created_at = 7;
+  string created_at = 7;
 }
 
 message ListOrderResp {
