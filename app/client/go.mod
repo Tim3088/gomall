@@ -2,14 +2,16 @@ module Go-Mall/app/client
 
 go 1.23.2
 
-replace Go-Mall/common => ../../common
+replace (
+	Go-Mall/common => ../../common
+	Go-Mall/rpc_gen => ../../rpc_gen
+)
 
 require (
 	Go-Mall/common v0.0.0-00010101000000-000000000000
 	github.com/cloudwego/hertz v0.9.5
 	github.com/cloudwego/kitex v0.12.1
 	github.com/hertz-contrib/casbin v0.1.0
-	github.com/hertz-contrib/jwt v1.0.2
 	github.com/hertz-contrib/monitor-prometheus v0.1.3
 	github.com/hertz-contrib/obs-opentelemetry/logging/logrus v0.1.1
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.4.1
