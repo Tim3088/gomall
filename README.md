@@ -141,3 +141,11 @@ go run main.go
 ```bash
 go run main.go
 ```
+
+## 信用卡信息的验证
+```bash
+cd app/payment
+go work use .
+go mod tidy
+go get github.com/durango/go-credit-card
+```

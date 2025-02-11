@@ -2,13 +2,13 @@ go 1.23.2
 
 use (
 	./app/cart
-	./app/client
 	./app/checkout
+	./app/client
 	./app/order
 	./app/payment
 	./app/product
 	./app/user
 	./common
-	rpc_gen
 	app/auth
+	rpc_gen
 )
