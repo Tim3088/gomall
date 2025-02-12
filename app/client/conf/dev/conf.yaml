@@ -1,9 +1,10 @@
 hertz:
   service: "client"
   address: ":8080"
+  metrics_port: ":8090"
   log_level: info
   log_file_name: "log/hertz.log"
   log_max_size: 10
   log_max_age: 3
   log_max_backups: 50
-  registry_addr: "localhost:8500"
+  registry_addr: "consul:8500"
