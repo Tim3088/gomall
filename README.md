@@ -129,6 +129,9 @@ cwgo server --type HTTP --idl ..\..\idl\client\order_page.proto --service client
 cwgo server --type HTTP --idl ..\..\idl\client\checkout_page.proto --service client -module Go-Mall/app/client -I ../../idl
 ```
 ## 启动方式
+### 从 dockerhub 中拉取镜像
+1. golang:1.23
+2. busybox:latest
 ### 构建docker镜像
 ${v}为版本号
 #### 构建 HTTP服务端 镜像
@@ -136,21 +139,28 @@ ${v}为版本号
 make build-client v=latest
 ```
 #### 构建 RPC服务端 镜像
-${svc}为服务名
 ```bash
 make build-svc svc=auth v=latest
 ```
+```bash
+make build-svc svc=cart v=latest
+```
+```bash
+make build-svc svc=checkout v=latest
+```
+```bash
+make build-svc svc=order v=latest
+```
+```bash
+make build-svc svc=payment v=latest
+```
+```bash
+make build-svc svc=product v=latest
+```
+```bash
+make build-svc svc=user v=latest
+```
 #### 启动项目根目录下的 docker-compose.yml
 ```bash
-docker-compose up
-```
-#### 启动相关服务（服务注册）
-在各服务目录目录下执行
-```bash
-go run main.go
-```
-#### 启动客户端对外接口（服务发现）
-在./app/client目录下执行
-```bash
-go run main.go
+docker compose up
 ```

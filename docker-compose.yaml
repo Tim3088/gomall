@@ -155,11 +155,7 @@ services:
     volumes:
       - ./app/order/conf/dev:/opt/gomall/order/conf/dev
   payment:
-    build:
-      context: .
-      dockerfile: ./deploy/Dockerfile.svc
-      args:
-        - SVC=payment
+    image: "payment:latest"
     environment:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
