@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"Go-Mall/app/cart/biz/model"
 	"Go-Mall/app/cart/conf"
 	"fmt"
 	"gorm.io/plugin/opentelemetry/tracing"
@@ -32,4 +33,8 @@ func Init() {
 		panic(err)
 	}
 
+	err := DB.AutoMigrate(&model.Cart{})
+	if err != nil {
+		return
+	}
 }
