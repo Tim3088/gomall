@@ -3,8 +3,8 @@ module Go-Mall/app/checkout
 go 1.23.2
 
 replace (
+	Go-Mall/common => ../../common
 	Go-Mall/rpc_gen => ../../rpc_gen
-    Go-Mall/common => ../../common
 	github.com/apache/thrift => github.com/apache/thrift v0.13.0
 )
 

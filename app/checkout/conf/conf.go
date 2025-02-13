@@ -20,6 +20,7 @@ var (
 type Config struct {
 	Env      string
 	Kitex    Kitex    `yaml:"kitex"`
+	Hertz    Hertz    `yaml:"hertz"`
 	MySQL    MySQL    `yaml:"mysql"`
 	Redis    Redis    `yaml:"redis"`
 	Registry Registry `yaml:"registry"`
@@ -51,6 +52,20 @@ type Registry struct {
 	RegistryAddress []string `yaml:"registry_address"`
 	Username        string   `yaml:"username"`
 	Password        string   `yaml:"password"`
+}
+
+type Hertz struct {
+	Address         string `yaml:"address"`
+	MetricsPort     string `yaml:"metrics_port"`
+	EnablePprof     bool   `yaml:"enable_pprof"`
+	EnableGzip      bool   `yaml:"enable_gzip"`
+	EnableAccessLog bool   `yaml:"enable_access_log"`
+	LogLevel        string `yaml:"log_level"`
+	LogFileName     string `yaml:"log_file_name"`
+	LogMaxSize      int    `yaml:"log_max_size"`
+	LogMaxBackups   int    `yaml:"log_max_backups"`
+	LogMaxAge       int    `yaml:"log_max_age"`
+	RegistryAddr    string `yaml:"registry_addr"`
 }
 
 // GetConf gets configuration instance
