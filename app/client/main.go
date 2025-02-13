@@ -2,7 +2,6 @@ package main
 
 import (
 	"Go-Mall/app/client/biz/router"
-	"Go-Mall/app/client/biz/utils"
 	"Go-Mall/app/client/conf"
 	"Go-Mall/app/client/infra/rpc"
 	"Go-Mall/app/client/middleware"
@@ -23,8 +22,6 @@ var (
 func main() {
 	_ = godotenv.Load()
 
-	// 初始化Jwt
-	utils.InitJwt()
 	// 初始化prometheus
 	mtl.InitMetric(ServiceName, MetricsPort, RegistryAddr)
 	rpc.InitClient()

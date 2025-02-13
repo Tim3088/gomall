@@ -1,0 +1,40 @@
+FROM golang:1.23 AS builder
+
+ARG SVC
+
+WORKDIR /usr/src/gomall
+
+ENV GO111MODULE=on
+ENV GOPROXY=https://goproxy.cn,https://proxy.golang.org,direct
+ENV CGO_ENABLED=0
+
+# 复制所有必要的模块文件
+COPY ../app/${SVC}/go.mod app/${SVC}/go.sum ./app/${SVC}/
+COPY ../rpc_gen/go.mod rpc_gen/go.sum ./rpc_gen/
+COPY ../common/go.mod common/go.sum ./common/
+
+# 复制源代码
+COPY ../rpc_gen ./rpc_gen/
+COPY ../common ./common/
+COPY ../app/${SVC} ./app/${SVC}/
+
+# 按顺序处理依赖
+RUN cd rpc_gen && go mod tidy
+RUN cd common && go mod tidy
+RUN cd app/${SVC} && go mod tidy
+
+# 构建应用
+RUN cd app/${SVC} && go build -v -o /opt/gomall/${SVC}/server
+
+FROM busybox
+
+ARG SVC
+
+COPY --from=builder /opt/gomall/${SVC}/server /opt/gomall/${SVC}/server
+
+# 复制配置文件
+COPY ../app/${SVC}/conf /opt/gomall/${SVC}/conf
+
+WORKDIR /opt/gomall/${SVC}
+
+CMD ["./server"]

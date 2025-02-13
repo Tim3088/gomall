@@ -2,9 +2,9 @@ package redis
 
 import (
 	"context"
+	"github.com/redis/go-redis/v9"
 
 	"Go-Mall/app/checkout/conf"
-	
 )
 
 var (

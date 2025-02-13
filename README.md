@@ -2,6 +2,8 @@
 ## 配置环境（脚手架）
 ### 安装 go 1.23.2
 https://go.dev/
+### 安装 make 并配置环境变量
+https://gnuwin32.sourceforge.net/packages/make.htm
 ### 安装 docker
 https://www.docker.com/
 ### 安装 cwgo
@@ -127,19 +129,40 @@ cwgo server --type HTTP --idl ..\..\idl\client\order_page.proto --service client
 cwgo server --type HTTP --idl ..\..\idl\client\checkout_page.proto --service client -module Go-Mall/app/client -I ../../idl
 ```
 ## 启动方式
-### 启动项目根目录下的 docker-compose.yml
+### 从 dockerhub 中拉取镜像
+1. golang:1.23
+2. busybox:latest
+### 构建docker镜像
+${v}为版本号
+#### 构建 HTTP服务端 镜像
 ```bash
-docker-compose up
+make build-client v=latest
 ```
-### 启动相关服务（服务注册）
-在各服务目录目录下执行
+#### 构建 RPC服务端 镜像
 ```bash
-go run main.go
+make build-svc svc=auth v=latest
 ```
-### 启动客户端对外接口（服务发现）
-在./app/client目录下执行
 ```bash
-go run main.go
+make build-svc svc=cart v=latest
+```
+```bash
+make build-svc svc=checkout v=latest
+```
+```bash
+make build-svc svc=order v=latest
+```
+```bash
+make build-svc svc=payment v=latest
+```
+```bash
+make build-svc svc=product v=latest
+```
+```bash
+make build-svc svc=user v=latest
+```
+#### 启动项目根目录下的 docker-compose.yml
+```bash
+docker compose up
 ```
 
 ## 信用卡信息的验证

@@ -1,0 +1,40 @@
+FROM golang:1.23 AS builder
+
+WORKDIR /usr/src/gomall
+
+ENV GO111MODULE=on
+ENV GOPROXY=https://goproxy.cn,https://proxy.golang.org,direct
+ENV CGO_ENABLED=0
+
+# 复制所有必要的模块文件
+COPY ../app/client/go.mod app/client/go.sum ./app/http/
+COPY ../rpc_gen/go.mod rpc_gen/go.sum ./rpc_gen/
+COPY ../common/go.mod common/go.sum ./common/
+
+# 复制源代码
+COPY ../rpc_gen ./rpc_gen/
+COPY ../common ./common/
+COPY ../app/client ./app/http/
+
+# 按顺序处理依赖
+RUN cd rpc_gen && go mod tidy
+RUN cd common && go mod tidy
+RUN cd app/http && go mod tidy
+
+# 构建应用
+RUN cd app/http && go build -v -o /opt/gomall/http/server
+
+FROM busybox
+
+COPY --from=builder /opt/gomall/http/server /opt/gomall/http/server
+
+# 复制配置文件
+COPY ../app/client/conf /opt/gomall/http/conf
+# casbin 配置文件
+COPY ../conf /opt/conf
+
+WORKDIR /opt/gomall/http
+
+EXPOSE 8080
+
+CMD ["./server"]

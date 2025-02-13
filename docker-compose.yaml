@@ -8,6 +8,12 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./db/sql/ini:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 2m
   redis:
     image: 'redis:latest'
     ports:
@@ -46,10 +52,119 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     ports:
       - "3100:3100"
-
   promtail:
     image: grafana/promtail:2.9.2
     volumes:
       - ./deploy/config/promtail.yml:/etc/promtail/config.yml
       - ./app/client/log:/logs/client
     command: -config.file=/etc/promtail/config.yml
+  client:
+    image: "client:latest"
+    ports:
+      - 8080:8080
+    environment:
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://127.0.0.1:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - GO_ENV=dev
+    depends_on:
+      - consul
+    volumes:
+      - ./app/client/conf/dev:/opt/gomall/http/conf/dev
+  user:
+    image: "user:latest"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - GO_ENV=dev
+    depends_on:
+      consul:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app/user/conf/dev:/opt/gomall/user/conf/dev
+  auth:
+    image: "auth:latest"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - GO_ENV=dev
+    depends_on:
+      consul:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app/auth/conf/dev:/opt/gomall/auth/conf/dev
+  product:
+    image: "product:latest"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - GO_ENV=dev
+    depends_on:
+      consul:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app/product/conf/dev:/opt/gomall/product/conf/dev
+  cart:
+    image: "cart:latest"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - GO_ENV=dev
+    depends_on:
+      consul:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app/cart/conf/dev:/opt/gomall/cart/conf/dev
+  checkout:
+    image: "checkout:latest"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - GO_ENV=dev
+    depends_on:
+      consul:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app/checkout/conf/dev:/opt/gomall/checkout/conf/dev
+  order:
+    image: "order:latest"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - GO_ENV=dev
+    depends_on:
+      consul:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app/order/conf/dev:/opt/gomall/order/conf/dev
+  payment:
+    image: "payment:latest"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - GO_ENV=dev
+    depends_on:
+      consul:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app/payment/conf/dev:/opt/gomall/payment/conf/dev
