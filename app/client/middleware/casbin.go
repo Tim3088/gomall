@@ -1,10 +1,13 @@
 package middleware
 
 import (
+	"Go-Mall/app/client/biz/utils"
 	"Go-Mall/app/client/infra/rpc"
 	rpcauth "Go-Mall/rpc_gen/kitex_gen/auth"
 	"context"
+	"errors"
 	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/hertz-contrib/casbin"
 	"log"
 	"strings"
@@ -28,12 +31,12 @@ func subjectFromJwt(ctx context.Context, c *app.RequestContext) string {
 	// 将token转化为string
 	tokenStr := strings.TrimPrefix(string(token), "Bearer ")
 	if tokenStr == "" {
-		log.Println("Authorization header is empty or invalid")
+		utils.SendErrResponse(ctx, c, consts.StatusOK, errors.New("Authorization header is empty"))
 		return ""
 	}
 	res, err := rpc.AuthClient.VerifyTokenByRPC(ctx, &rpcauth.VerifyTokenReq{Token: tokenStr})
 	if err != nil {
-		log.Println(err)
+		utils.SendErrResponse(ctx, c, consts.StatusOK, errors.New("verify token failed"))
 		return ""
 	}
 	if res.Role == 1 {

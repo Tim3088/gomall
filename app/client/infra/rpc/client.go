@@ -5,6 +5,7 @@ import (
 	clientutils "Go-Mall/app/client/utils"
 	"Go-Mall/common/clientsuite"
 	"Go-Mall/rpc_gen/kitex_gen/auth/authservice"
+	"Go-Mall/rpc_gen/kitex_gen/cart/cartservice"
 	"Go-Mall/rpc_gen/kitex_gen/order/orderservice"
 	"Go-Mall/rpc_gen/kitex_gen/product/productcatalogservice"
 	"Go-Mall/rpc_gen/kitex_gen/user/userservice"
@@ -17,6 +18,7 @@ var (
 	ProductClient productcatalogservice.Client
 	AuthClient    authservice.Client
 	OrderClient   orderservice.Client
+	CartClient    cartservice.Client
 
 	once         sync.Once
 	err          error
@@ -35,6 +37,7 @@ func InitClient() {
 		initProductClient()
 		initAuthClient()
 		initOrderClient()
+		initCartClient()
 	})
 }
 
@@ -55,5 +58,10 @@ func initAuthClient() {
 
 func initOrderClient() {
 	OrderClient, err = orderservice.NewClient("order", commonSuite)
+	clientutils.MustHandleError(err)
+}
+
+func initCartClient() {
+	CartClient, err = cartservice.NewClient("cart", commonSuite)
 	clientutils.MustHandleError(err)
 }
