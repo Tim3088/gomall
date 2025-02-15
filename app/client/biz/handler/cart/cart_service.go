@@ -1,12 +1,10 @@
 package cart
 
 import (
-	"context"
-
 	"Go-Mall/app/client/biz/service"
 	"Go-Mall/app/client/biz/utils"
 	cart "Go-Mall/app/client/hertz_gen/client/cart"
-	common "Go-Mall/app/client/hertz_gen/client/common"
+	"context"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
@@ -22,33 +20,33 @@ func AddCartItem(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := &common.Empty{}
-	resp, err = service.NewAddCartItemService(ctx, c).Run(&req)
+	_, err = service.NewAddCartItemService(ctx, c).Run(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
 
-	utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
+	utils.SendSuccessResponse(ctx, c, consts.StatusOK, nil)
 }
 
 // GetCart .
 // @router /cart [GET]
 func GetCart(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req common.Empty
-	err = c.BindAndValidate(&req)
+	resp, err := service.NewGetCartService(ctx, c).Run()
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
+	utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
+}
 
-	resp := &common.Empty{}
-	resp, err = service.NewGetCartService(ctx, c).Run(&req)
+// EmptyCart .
+// @router /cart [DELETE]
+func EmptyCart(ctx context.Context, c *app.RequestContext) {
+	resp, err := service.NewEmptyCartService(ctx, c).Run()
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
-
 	utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
 }

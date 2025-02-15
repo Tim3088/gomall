@@ -41,7 +41,7 @@ func (h *PlaceOrderService) Run(req *order.PlaceOrderReq) (resp *PlaceOrderResp,
 				items[i] = &rpcorder.OrderItem{
 					Item: &rpccart.CartItem{
 						ProductId: item.Item.ProductId,
-						Quantity:  item.Item.Quantity,
+						Quantity:  uint32(item.Item.Quantity),
 					},
 					Cost: item.Cost,
 				}

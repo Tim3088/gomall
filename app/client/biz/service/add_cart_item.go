@@ -1,10 +1,13 @@
 package service
 
 import (
+	"Go-Mall/app/client/hertz_gen/client/cart"
+	"Go-Mall/app/client/hertz_gen/client/common"
+	"Go-Mall/app/client/infra/rpc"
+	clientutils "Go-Mall/app/client/utils"
+	"Go-Mall/rpc_gen/kitex_gen/auth"
+	rpccart "Go-Mall/rpc_gen/kitex_gen/cart"
 	"context"
-
-	cart "Go-Mall/app/client/hertz_gen/client/cart"
-	common "Go-Mall/app/client/hertz_gen/client/common"
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
@@ -18,10 +21,24 @@ func NewAddCartItemService(Context context.Context, RequestContext *app.RequestC
 }
 
 func (h *AddCartItemService) Run(req *cart.AddCartReq) (resp *common.Empty, err error) {
-	//defer func() {
-	// hlog.CtxInfof(h.Context, "req = %+v", req)
-	// hlog.CtxInfof(h.Context, "resp = %+v", resp)
-	//}()
-	// todo edit your code
-	return
+	token, err := clientutils.GetTokenFromContext(h.RequestContext)
+	if err != nil {
+		return nil, err
+	}
+	// 通过token获取用户信息
+	authResp, err := rpc.AuthClient.VerifyTokenByRPC(h.Context, &auth.VerifyTokenReq{Token: token})
+	if err != nil {
+		return nil, err
+	}
+	_, err = rpc.CartClient.AddItem(h.Context, &rpccart.AddItemReq{
+		UserId: uint32(authResp.UserId),
+		Item: &rpccart.CartItem{
+			ProductId: req.ProductId,
+			Quantity:  req.ProductNum,
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &common.Empty{}, nil
 }

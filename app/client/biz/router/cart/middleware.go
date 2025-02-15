@@ -20,6 +20,15 @@ func _addcartitemMw() []app.HandlerFunc {
 }
 
 func _getcartMw() []app.HandlerFunc {
-	// your code...
-	return nil
+	// 使用casbin中间件
+	return []app.HandlerFunc{
+		middleware.CasbinAuth.RequiresRoles("member"),
+	}
+}
+
+func _emptycartMw() []app.HandlerFunc {
+	// 使用casbin中间件
+	return []app.HandlerFunc{
+		middleware.CasbinAuth.RequiresRoles("member"),
+	}
 }

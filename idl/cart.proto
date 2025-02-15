@@ -12,7 +12,7 @@ service CartService {
 
 message CartItem {
   uint32 product_id = 1;
-  int32  quantity = 2;
+  uint32  quantity = 2;
 }
 
 message AddItemReq {
@@ -22,21 +22,16 @@ message AddItemReq {
 
 message AddItemResp {}
 
-message EmptyCartReq {
-  uint32 user_id = 1;
-}
-
 message GetCartReq {
   uint32 user_id = 1;
 }
 
 message GetCartResp {
-  Cart cart = 1;
+  repeated CartItem items = 1;
 }
 
-message Cart {
+message EmptyCartReq {
   uint32 user_id = 1;
-  repeated CartItem items = 2;
 }
 
 message EmptyCartResp {}
