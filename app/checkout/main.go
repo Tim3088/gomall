@@ -1,7 +1,6 @@
 package main
 
 import (
-	"Go-Mall/app/checkout/biz/dal"
 	"Go-Mall/app/checkout/conf"
 	"Go-Mall/common/mtl"
 	"Go-Mall/common/serversuite"
@@ -37,7 +36,7 @@ func main() {
 	p := mtl.InitTracing(serviceName)
 	defer p.Shutdown(context.Background()) // 在服务关闭前上传剩余链路追踪数据
 
-	dal.Init()
+	//dal.Init()
 	opts := kitexInit()
 
 	svr := checkoutservice.NewServer(new(CheckoutServiceImpl), opts...)

@@ -1,7 +1,7 @@
 package service
 
 import (
-	"Go-Mall/app/checkout/infra/rpc"
+	"Go-Mall/app/checkout/rpc"
 	"Go-Mall/rpc_gen/kitex_gen/cart"
 	checkout "Go-Mall/rpc_gen/kitex_gen/checkout"
 	"Go-Mall/rpc_gen/kitex_gen/order"
@@ -28,14 +28,14 @@ func (s *CheckoutService) Run(req *checkout.CheckoutReq) (resp *checkout.Checkou
 	if err != nil {
 		return nil, kerrors.NewGRPCBizStatusError(50050001, err.Error())
 	}
-	if cartResult.Cart == nil || cartResult.Cart.Items == nil {
+	if cartResult == nil || cartResult.Items == nil {
 		return nil, kerrors.NewGRPCBizStatusError(50050002, "cart is empty")
 	}
 
 	var orderItems []*order.OrderItem
 	// 计算总价 获取购物车物品
 	var total float32
-	for _, cartItems := range cartResult.Cart.Items {
+	for _, cartItems := range cartResult.Items {
 		productResp, resultErr := rpc.ProductClient.GetProduct(s.ctx, &product.GetProductReq{
 			Id: cartItems.ProductId,
 		})
@@ -43,7 +43,6 @@ func (s *CheckoutService) Run(req *checkout.CheckoutReq) (resp *checkout.Checkou
 			return nil, resultErr
 		}
 		if productResp.Product == nil {
-			//return nil, kerrors.NewGRPCBizStatusError(50050003, "product is empty")
 			continue
 		}
 

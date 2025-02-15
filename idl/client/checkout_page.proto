@@ -25,7 +25,7 @@ message CheckoutReq {
 
 service CheckoutService {
   rpc Checkout(CheckoutReq) returns (common.Empty) {
-    option (api.get) = "/checkout";
+    option (api.post) = "/checkout";
   }
   rpc CheckoutWaiting(common.Empty) returns (common.Empty) {
     option (api.post) = "/checkout/waiting";
