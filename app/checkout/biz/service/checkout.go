@@ -106,6 +106,14 @@ func (s *CheckoutService) Run(req *checkout.CheckoutReq) (resp *checkout.Checkou
 	}
 	klog.Info(paymentResult)
 
+	//设置订单为已经支付
+	_, err = rpc.OrderClient.MarkOrderPaid(s.ctx, &order.MarkOrderPaidReq{
+		OrderId: orderId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	//构造响应
 	resp = &checkout.CheckoutResp{
 		OrderId:       orderId,

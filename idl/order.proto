@@ -54,6 +54,7 @@ message Order {
   Address address = 5;
   string email = 6;
   string created_at = 7;
+  bool paid = 8;
 }
 
 message ListOrderResp {
