@@ -3,6 +3,7 @@
 package checkout
 
 import (
+	"Go-Mall/app/client/middleware"
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
@@ -17,8 +18,10 @@ func _checkoutMw() []app.HandlerFunc {
 }
 
 func _checkout0Mw() []app.HandlerFunc {
-	// your code...
-	return nil
+	// 使用casbin中间件
+	return []app.HandlerFunc{
+		middleware.CasbinAuth.RequiresRoles("member"),
+	}
 }
 
 func _checkoutresultMw() []app.HandlerFunc {

@@ -3,6 +3,7 @@
 package order
 
 import (
+	"Go-Mall/app/client/middleware"
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
@@ -12,8 +13,10 @@ func rootMw() []app.HandlerFunc {
 }
 
 func _orderlistMw() []app.HandlerFunc {
-	// your code...
-	return nil
+	// 使用casbin中间件
+	return []app.HandlerFunc{
+		middleware.CasbinAuth.RequiresRoles("member"),
+	}
 }
 
 func _orderMw() []app.HandlerFunc {
@@ -22,6 +25,8 @@ func _orderMw() []app.HandlerFunc {
 }
 
 func _placeorderMw() []app.HandlerFunc {
-	// your code...
-	return nil
+	// 使用casbin中间件
+	return []app.HandlerFunc{
+		middleware.CasbinAuth.RequiresRoles("member"),
+	}
 }
