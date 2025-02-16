@@ -2,6 +2,8 @@ package service
 
 import (
 	"Go-Mall/app/client/infra/rpc"
+	clientutils "Go-Mall/app/client/utils"
+	"Go-Mall/rpc_gen/kitex_gen/auth"
 	rpccheckout "Go-Mall/rpc_gen/kitex_gen/checkout"
 	rpcpayment "Go-Mall/rpc_gen/kitex_gen/payment"
 	"context"
@@ -25,18 +27,18 @@ type CheckoutResp struct {
 }
 
 func (h *CheckoutService) Run(req *checkout.CheckoutReq) (resp *CheckoutResp, err error) {
-	//token, err := clientutils.GetTokenFromContext(h.RequestContext)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//// 通过token获取用户信息
-	//authResp, err := rpc.AuthClient.VerifyTokenByRPC(h.Context, &auth.VerifyTokenReq{Token: token})
-	//if err != nil {
-	//	return nil, err
-	//}
+	token, err := clientutils.GetTokenFromContext(h.RequestContext)
+	if err != nil {
+		return nil, err
+	}
+	// 通过token获取用户信息
+	authResp, err := rpc.AuthClient.VerifyTokenByRPC(h.Context, &auth.VerifyTokenReq{Token: token})
+	if err != nil {
+		return nil, err
+	}
 
 	res, err := rpc.CheckoutClient.Checkout(h.Context, &rpccheckout.CheckoutReq{
-		UserId:    2,
+		UserId:    uint32(authResp.UserId),
 		Firstname: req.Firstname,
 		Lastname:  req.Lastname,
 		Email:     req.Email,

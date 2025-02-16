@@ -2,6 +2,7 @@ package main
 
 import (
 	"Go-Mall/app/checkout/conf"
+	"Go-Mall/app/checkout/rpc"
 	"Go-Mall/common/mtl"
 	"Go-Mall/common/serversuite"
 	"Go-Mall/common/utils"
@@ -22,6 +23,8 @@ var (
 
 func main() {
 	_ = godotenv.Load()
+
+	rpc.InitClient()
 
 	mtl.InitLog(&lumberjack.Logger{
 		Filename:   conf.GetConf().Kitex.LogFileName,

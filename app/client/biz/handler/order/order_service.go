@@ -11,17 +11,9 @@ import (
 )
 
 // OrderList .
-// @router /order [GET]
+// @router /order/list [GET]
 func OrderList(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req order.ListOrderReq
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
-		return
-	}
-
-	resp, err := service.NewOrderListService(ctx, c).Run(&req)
+	resp, err := service.NewOrderListService(ctx, c).Run()
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return

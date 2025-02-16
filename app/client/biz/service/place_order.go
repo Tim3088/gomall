@@ -2,6 +2,8 @@ package service
 
 import (
 	"Go-Mall/app/client/infra/rpc"
+	clientutils "Go-Mall/app/client/utils"
+	"Go-Mall/rpc_gen/kitex_gen/auth"
 	rpccart "Go-Mall/rpc_gen/kitex_gen/cart"
 	rpcorder "Go-Mall/rpc_gen/kitex_gen/order"
 	"context"
@@ -24,8 +26,17 @@ type PlaceOrderResp struct {
 }
 
 func (h *PlaceOrderService) Run(req *order.PlaceOrderReq) (resp *PlaceOrderResp, err error) {
+	token, err := clientutils.GetTokenFromContext(h.RequestContext)
+	if err != nil {
+		return nil, err
+	}
+	// 通过token获取用户信息
+	authResp, err := rpc.AuthClient.VerifyTokenByRPC(h.Context, &auth.VerifyTokenReq{Token: token})
+	if err != nil {
+		return nil, err
+	}
 	res, err := rpc.OrderClient.PlaceOrder(h.Context, &rpcorder.PlaceOrderReq{
-		UserId:       req.UserId,
+		UserId:       uint32(authResp.UserId),
 		UserCurrency: req.UserCurrency,
 		Address: &rpcorder.Address{
 			State:         req.Address.State,

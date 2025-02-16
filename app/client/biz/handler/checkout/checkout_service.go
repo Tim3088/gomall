@@ -12,7 +12,7 @@ import (
 )
 
 // Checkout .
-// @router /checkout [GET]
+// @router /checkout [POST]
 func Checkout(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req checkout.CheckoutReq
