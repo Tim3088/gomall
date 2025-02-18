@@ -48,6 +48,7 @@ func (s *ListOrderService) Run(req *order.ListOrderReq) (resp *order.ListOrderRe
 			},
 			OrderItems: items,
 			CreatedAt:  v.CreatedAt.Format("2006-01-02 15:04:05.000"),
+			Paid:       v.Paid,
 		})
 	}
 	resp = &order.ListOrderResp{
