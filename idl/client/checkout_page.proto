@@ -23,6 +23,14 @@ message CheckoutReq {
   string payment = 13 [(api.form) = "payment"];
 }
 
+message CheckoutOrderReq {
+  string order_id = 1 [(api.form) = "orderId"];
+  string card_num = 9 [(api.form) = "cardNum"];
+  int32 cvv = 12 [(api.form) = "cvv"];
+  int32 expiration_year = 11 [(api.form) = "expirationYear"];
+  int32 expiration_month = 10 [(api.form) = "expirationMonth"];
+}
+
 service CheckoutService {
   rpc Checkout(CheckoutReq) returns (common.Empty) {
     option (api.post) = "/checkout";
@@ -32,5 +40,8 @@ service CheckoutService {
   }
   rpc CheckoutResult(common.Empty) returns (common.Empty) {
     option (api.get) = "/checkout/result";
+  }
+  rpc CheckoutOrder(CheckoutOrderReq) returns (common.Empty) {
+    option (api.post) = "/checkout/order";
   }
 }

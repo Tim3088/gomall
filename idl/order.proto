@@ -10,6 +10,7 @@ service OrderService {
   rpc PlaceOrder(PlaceOrderReq) returns (PlaceOrderResp) {}
   rpc ListOrder(ListOrderReq) returns (ListOrderResp) {}
   rpc MarkOrderPaid(MarkOrderPaidReq) returns (MarkOrderPaidResp) {}
+  rpc GetOrderItems(GetOrderItemsReq) returns (GetOrderItemsResp) {}
 }
 
 message Address {
@@ -71,3 +72,11 @@ message MarkOrderPaidReq {
 }
 
 message MarkOrderPaidResp {}
+
+message GetOrderItemsReq {
+  string order_id = 1;
+}
+
+message GetOrderItemsResp {
+  repeated OrderItem order_items = 1;
+}

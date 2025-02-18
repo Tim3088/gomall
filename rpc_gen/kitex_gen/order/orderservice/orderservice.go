@@ -36,6 +36,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"GetOrderItems": kitex.NewMethodInfo(
+		getOrderItemsHandler,
+		newGetOrderItemsArgs,
+		newGetOrderItemsResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -561,6 +568,159 @@ func (p *MarkOrderPaidResult) GetResult() interface{} {
 	return p.Success
 }
 
+func getOrderItemsHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(order.GetOrderItemsReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(order.OrderService).GetOrderItems(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *GetOrderItemsArgs:
+		success, err := handler.(order.OrderService).GetOrderItems(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetOrderItemsResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newGetOrderItemsArgs() interface{} {
+	return &GetOrderItemsArgs{}
+}
+
+func newGetOrderItemsResult() interface{} {
+	return &GetOrderItemsResult{}
+}
+
+type GetOrderItemsArgs struct {
+	Req *order.GetOrderItemsReq
+}
+
+func (p *GetOrderItemsArgs) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+	if !p.IsSetReq() {
+		p.Req = new(order.GetOrderItemsReq)
+	}
+	return p.Req.FastRead(buf, _type, number)
+}
+
+func (p *GetOrderItemsArgs) FastWrite(buf []byte) (n int) {
+	if !p.IsSetReq() {
+		return 0
+	}
+	return p.Req.FastWrite(buf)
+}
+
+func (p *GetOrderItemsArgs) Size() (n int) {
+	if !p.IsSetReq() {
+		return 0
+	}
+	return p.Req.Size()
+}
+
+func (p *GetOrderItemsArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetOrderItemsArgs) Unmarshal(in []byte) error {
+	msg := new(order.GetOrderItemsReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetOrderItemsArgs_Req_DEFAULT *order.GetOrderItemsReq
+
+func (p *GetOrderItemsArgs) GetReq() *order.GetOrderItemsReq {
+	if !p.IsSetReq() {
+		return GetOrderItemsArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetOrderItemsArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *GetOrderItemsArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type GetOrderItemsResult struct {
+	Success *order.GetOrderItemsResp
+}
+
+var GetOrderItemsResult_Success_DEFAULT *order.GetOrderItemsResp
+
+func (p *GetOrderItemsResult) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+	if !p.IsSetSuccess() {
+		p.Success = new(order.GetOrderItemsResp)
+	}
+	return p.Success.FastRead(buf, _type, number)
+}
+
+func (p *GetOrderItemsResult) FastWrite(buf []byte) (n int) {
+	if !p.IsSetSuccess() {
+		return 0
+	}
+	return p.Success.FastWrite(buf)
+}
+
+func (p *GetOrderItemsResult) Size() (n int) {
+	if !p.IsSetSuccess() {
+		return 0
+	}
+	return p.Success.Size()
+}
+
+func (p *GetOrderItemsResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetOrderItemsResult) Unmarshal(in []byte) error {
+	msg := new(order.GetOrderItemsResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetOrderItemsResult) GetSuccess() *order.GetOrderItemsResp {
+	if !p.IsSetSuccess() {
+		return GetOrderItemsResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetOrderItemsResult) SetSuccess(x interface{}) {
+	p.Success = x.(*order.GetOrderItemsResp)
+}
+
+func (p *GetOrderItemsResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *GetOrderItemsResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -596,6 +756,16 @@ func (p *kClient) MarkOrderPaid(ctx context.Context, Req *order.MarkOrderPaidReq
 	_args.Req = Req
 	var _result MarkOrderPaidResult
 	if err = p.c.Call(ctx, "MarkOrderPaid", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetOrderItems(ctx context.Context, Req *order.GetOrderItemsReq) (r *order.GetOrderItemsResp, err error) {
+	var _args GetOrderItemsArgs
+	_args.Req = Req
+	var _result GetOrderItemsResult
+	if err = p.c.Call(ctx, "GetOrderItems", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

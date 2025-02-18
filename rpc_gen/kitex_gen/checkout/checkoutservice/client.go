@@ -12,6 +12,7 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	Checkout(ctx context.Context, Req *checkout.CheckoutReq, callOptions ...callopt.Option) (r *checkout.CheckoutResp, err error)
+	CheckoutOrder(ctx context.Context, Req *checkout.CheckoutOrderReq, callOptions ...callopt.Option) (r *checkout.CheckoutOrderResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -46,4 +47,9 @@ type kCheckoutServiceClient struct {
 func (p *kCheckoutServiceClient) Checkout(ctx context.Context, Req *checkout.CheckoutReq, callOptions ...callopt.Option) (r *checkout.CheckoutResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.Checkout(ctx, Req)
+}
+
+func (p *kCheckoutServiceClient) CheckoutOrder(ctx context.Context, Req *checkout.CheckoutOrderReq, callOptions ...callopt.Option) (r *checkout.CheckoutOrderResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.CheckoutOrder(ctx, Req)
 }

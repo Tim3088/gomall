@@ -33,3 +33,12 @@ func MarkOrderPaid(ctx context.Context, req *order.MarkOrderPaidReq, callOptions
 	}
 	return resp, nil
 }
+
+func GetOrderItems(ctx context.Context, req *order.GetOrderItemsReq, callOptions ...callopt.Option) (resp *order.GetOrderItemsResp, err error) {
+	resp, err = defaultClient.GetOrderItems(ctx, req, callOptions...)
+	if err != nil {
+		klog.CtxErrorf(ctx, "GetOrderItems call failed,err =%+v", err)
+		return nil, err
+	}
+	return resp, nil
+}

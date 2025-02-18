@@ -15,3 +15,10 @@ func (s *CheckoutServiceImpl) Checkout(ctx context.Context, req *checkout.Checko
 
 	return resp, err
 }
+
+// CheckoutOrder implements the CheckoutServiceImpl interface.
+func (s *CheckoutServiceImpl) CheckoutOrder(ctx context.Context, req *checkout.CheckoutOrderReq) (resp *checkout.CheckoutOrderResp, err error) {
+	resp, err = service.NewCheckoutOrderService(ctx).Run(req)
+
+	return resp, err
+}
