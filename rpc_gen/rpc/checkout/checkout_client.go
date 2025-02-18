@@ -13,6 +13,7 @@ type RPCClient interface {
 	KitexClient() checkoutservice.Client
 	Service() string
 	Checkout(ctx context.Context, Req *checkout.CheckoutReq, callOptions ...callopt.Option) (r *checkout.CheckoutResp, err error)
+	CheckoutOrder(ctx context.Context, Req *checkout.CheckoutOrderReq, callOptions ...callopt.Option) (r *checkout.CheckoutOrderResp, err error)
 }
 
 func NewRPCClient(dstService string, opts ...client.Option) (RPCClient, error) {
@@ -43,4 +44,8 @@ func (c *clientImpl) KitexClient() checkoutservice.Client {
 
 func (c *clientImpl) Checkout(ctx context.Context, Req *checkout.CheckoutReq, callOptions ...callopt.Option) (r *checkout.CheckoutResp, err error) {
 	return c.kitexClient.Checkout(ctx, Req, callOptions...)
+}
+
+func (c *clientImpl) CheckoutOrder(ctx context.Context, Req *checkout.CheckoutOrderReq, callOptions ...callopt.Option) (r *checkout.CheckoutOrderResp, err error) {
+	return c.kitexClient.CheckoutOrder(ctx, Req, callOptions...)
 }

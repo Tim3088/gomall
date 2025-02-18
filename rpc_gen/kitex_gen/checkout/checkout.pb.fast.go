@@ -198,6 +198,81 @@ func (x *CheckoutResp) fastReadField2(buf []byte, _type int8) (offset int, err e
 	return offset, err
 }
 
+func (x *CheckoutOrderReq) FastRead(buf []byte, _type int8, number int32) (offset int, err error) {
+	switch number {
+	case 1:
+		offset, err = x.fastReadField1(buf, _type)
+		if err != nil {
+			goto ReadFieldError
+		}
+	case 2:
+		offset, err = x.fastReadField2(buf, _type)
+		if err != nil {
+			goto ReadFieldError
+		}
+	case 3:
+		offset, err = x.fastReadField3(buf, _type)
+		if err != nil {
+			goto ReadFieldError
+		}
+	default:
+		offset, err = fastpb.Skip(buf, _type, number)
+		if err != nil {
+			goto SkipFieldError
+		}
+	}
+	return offset, nil
+SkipFieldError:
+	return offset, fmt.Errorf("%T cannot parse invalid wire-format data, error: %s", x, err)
+ReadFieldError:
+	return offset, fmt.Errorf("%T read field %d '%s' error: %s", x, number, fieldIDToName_CheckoutOrderReq[number], err)
+}
+
+func (x *CheckoutOrderReq) fastReadField1(buf []byte, _type int8) (offset int, err error) {
+	x.UserId, offset, err = fastpb.ReadUint32(buf, _type)
+	return offset, err
+}
+
+func (x *CheckoutOrderReq) fastReadField2(buf []byte, _type int8) (offset int, err error) {
+	x.OrderId, offset, err = fastpb.ReadString(buf, _type)
+	return offset, err
+}
+
+func (x *CheckoutOrderReq) fastReadField3(buf []byte, _type int8) (offset int, err error) {
+	var v payment.CreditCardInfo
+	offset, err = fastpb.ReadMessage(buf, _type, &v)
+	if err != nil {
+		return offset, err
+	}
+	x.CreditCard = &v
+	return offset, nil
+}
+
+func (x *CheckoutOrderResp) FastRead(buf []byte, _type int8, number int32) (offset int, err error) {
+	switch number {
+	case 1:
+		offset, err = x.fastReadField1(buf, _type)
+		if err != nil {
+			goto ReadFieldError
+		}
+	default:
+		offset, err = fastpb.Skip(buf, _type, number)
+		if err != nil {
+			goto SkipFieldError
+		}
+	}
+	return offset, nil
+SkipFieldError:
+	return offset, fmt.Errorf("%T cannot parse invalid wire-format data, error: %s", x, err)
+ReadFieldError:
+	return offset, fmt.Errorf("%T read field %d '%s' error: %s", x, number, fieldIDToName_CheckoutOrderResp[number], err)
+}
+
+func (x *CheckoutOrderResp) fastReadField1(buf []byte, _type int8) (offset int, err error) {
+	x.TransactionId, offset, err = fastpb.ReadString(buf, _type)
+	return offset, err
+}
+
 func (x *Address) FastWrite(buf []byte) (offset int) {
 	if x == nil {
 		return offset
@@ -333,6 +408,56 @@ func (x *CheckoutResp) fastWriteField2(buf []byte) (offset int) {
 		return offset
 	}
 	offset += fastpb.WriteString(buf[offset:], 2, x.GetTransactionId())
+	return offset
+}
+
+func (x *CheckoutOrderReq) FastWrite(buf []byte) (offset int) {
+	if x == nil {
+		return offset
+	}
+	offset += x.fastWriteField1(buf[offset:])
+	offset += x.fastWriteField2(buf[offset:])
+	offset += x.fastWriteField3(buf[offset:])
+	return offset
+}
+
+func (x *CheckoutOrderReq) fastWriteField1(buf []byte) (offset int) {
+	if x.UserId == 0 {
+		return offset
+	}
+	offset += fastpb.WriteUint32(buf[offset:], 1, x.GetUserId())
+	return offset
+}
+
+func (x *CheckoutOrderReq) fastWriteField2(buf []byte) (offset int) {
+	if x.OrderId == "" {
+		return offset
+	}
+	offset += fastpb.WriteString(buf[offset:], 2, x.GetOrderId())
+	return offset
+}
+
+func (x *CheckoutOrderReq) fastWriteField3(buf []byte) (offset int) {
+	if x.CreditCard == nil {
+		return offset
+	}
+	offset += fastpb.WriteMessage(buf[offset:], 3, x.GetCreditCard())
+	return offset
+}
+
+func (x *CheckoutOrderResp) FastWrite(buf []byte) (offset int) {
+	if x == nil {
+		return offset
+	}
+	offset += x.fastWriteField1(buf[offset:])
+	return offset
+}
+
+func (x *CheckoutOrderResp) fastWriteField1(buf []byte) (offset int) {
+	if x.TransactionId == "" {
+		return offset
+	}
+	offset += fastpb.WriteString(buf[offset:], 1, x.GetTransactionId())
 	return offset
 }
 
@@ -474,6 +599,56 @@ func (x *CheckoutResp) sizeField2() (n int) {
 	return n
 }
 
+func (x *CheckoutOrderReq) Size() (n int) {
+	if x == nil {
+		return n
+	}
+	n += x.sizeField1()
+	n += x.sizeField2()
+	n += x.sizeField3()
+	return n
+}
+
+func (x *CheckoutOrderReq) sizeField1() (n int) {
+	if x.UserId == 0 {
+		return n
+	}
+	n += fastpb.SizeUint32(1, x.GetUserId())
+	return n
+}
+
+func (x *CheckoutOrderReq) sizeField2() (n int) {
+	if x.OrderId == "" {
+		return n
+	}
+	n += fastpb.SizeString(2, x.GetOrderId())
+	return n
+}
+
+func (x *CheckoutOrderReq) sizeField3() (n int) {
+	if x.CreditCard == nil {
+		return n
+	}
+	n += fastpb.SizeMessage(3, x.GetCreditCard())
+	return n
+}
+
+func (x *CheckoutOrderResp) Size() (n int) {
+	if x == nil {
+		return n
+	}
+	n += x.sizeField1()
+	return n
+}
+
+func (x *CheckoutOrderResp) sizeField1() (n int) {
+	if x.TransactionId == "" {
+		return n
+	}
+	n += fastpb.SizeString(1, x.GetTransactionId())
+	return n
+}
+
 var fieldIDToName_Address = map[int32]string{
 	1: "StreetAddress",
 	2: "City",
@@ -494,6 +669,16 @@ var fieldIDToName_CheckoutReq = map[int32]string{
 var fieldIDToName_CheckoutResp = map[int32]string{
 	1: "OrderId",
 	2: "TransactionId",
+}
+
+var fieldIDToName_CheckoutOrderReq = map[int32]string{
+	1: "UserId",
+	2: "OrderId",
+	3: "CreditCard",
+}
+
+var fieldIDToName_CheckoutOrderResp = map[int32]string{
+	1: "TransactionId",
 }
 
 var _ = payment.File_payment_proto

@@ -33,3 +33,10 @@ func _checkoutwaitingMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _checkoutorderMw() []app.HandlerFunc {
+	// 使用casbin中间件
+	return []app.HandlerFunc{
+		middleware.CasbinAuth.RequiresRoles("member"),
+	}
+}

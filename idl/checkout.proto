@@ -8,6 +8,7 @@ option go_package = "/checkout";
 
 service CheckoutService {
   rpc Checkout(CheckoutReq) returns (CheckoutResp) {}
+  rpc CheckoutOrder(CheckoutOrderReq) returns (CheckoutOrderResp) {}
 }
 
 message Address {
@@ -30,4 +31,14 @@ message CheckoutReq {
 message CheckoutResp {
   string order_id = 1;
   string transaction_id = 2;
+}
+
+message CheckoutOrderReq {
+  uint32 user_id = 1;
+  string order_id = 2;
+  payment.CreditCardInfo credit_card = 3;
+}
+
+message CheckoutOrderResp {
+  string transaction_id = 1;
 }

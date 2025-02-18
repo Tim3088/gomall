@@ -15,3 +15,12 @@ func Checkout(ctx context.Context, req *checkout.CheckoutReq, callOptions ...cal
 	}
 	return resp, nil
 }
+
+func CheckoutOrder(ctx context.Context, req *checkout.CheckoutOrderReq, callOptions ...callopt.Option) (resp *checkout.CheckoutOrderResp, err error) {
+	resp, err = defaultClient.CheckoutOrder(ctx, req, callOptions...)
+	if err != nil {
+		klog.CtxErrorf(ctx, "CheckoutOrder call failed,err =%+v", err)
+		return nil, err
+	}
+	return resp, nil
+}
