@@ -59,6 +59,8 @@ func (h *PlaceOrderService) Run(req *order.PlaceOrderReq) (resp *PlaceOrderResp,
 			}
 			return items
 		}(),
+		Firstname: req.Firstname,
+		Lastname:  req.Lastname,
 	})
 	if err != nil {
 		return nil, err

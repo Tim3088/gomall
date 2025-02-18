@@ -27,6 +27,8 @@ message PlaceOrderReq {
   Address address = 3;
   string email = 4;
   repeated OrderItem order_items = 5;
+  string firstname = 6;
+  string lastname = 7;
 }
 
 message OrderItem {
@@ -55,6 +57,8 @@ message Order {
   string email = 6;
   string created_at = 7;
   bool paid = 8;
+  string firstname = 9;
+  string lastname = 10;
 }
 
 message ListOrderResp {

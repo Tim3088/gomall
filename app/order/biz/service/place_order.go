@@ -32,6 +32,8 @@ func (s *PlaceOrderService) Run(req *order.PlaceOrderReq) (resp *order.PlaceOrde
 			Consignee: model.Consignee{
 				Email: req.Email,
 			},
+			Firstname: req.Firstname,
+			Lastname:  req.Lastname,
 		}
 		if req.Address != nil {
 			a := req.Address

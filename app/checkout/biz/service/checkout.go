@@ -74,6 +74,8 @@ func (s *CheckoutService) Run(req *checkout.CheckoutReq) (resp *checkout.Checkou
 		},
 		Email:      req.Email,
 		OrderItems: orderItems,
+		Firstname:  req.Firstname,
+		Lastname:   req.Lastname,
 	})
 	if err != nil {
 		return nil, err

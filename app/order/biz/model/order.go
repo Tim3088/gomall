@@ -22,6 +22,8 @@ type Order struct {
 	Consignee    Consignee   `gorm:"embedded"`
 	OrderItems   []OrderItem `gorm:"foreignKey:OrderIdRefer;references:OrderId"`
 	Paid         bool        `gorm:"type:boolean;default:false"`
+	Firstname    string      `gorm:"type:varchar(100);column:firstname"`
+	Lastname     string      `gorm:"type:varchar(100);column:lastname"`
 }
 
 func (Order) TableName() string {
