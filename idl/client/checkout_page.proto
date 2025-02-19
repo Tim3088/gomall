@@ -35,12 +35,6 @@ service CheckoutService {
   rpc Checkout(CheckoutReq) returns (common.Empty) {
     option (api.post) = "/checkout";
   }
-  rpc CheckoutWaiting(common.Empty) returns (common.Empty) {
-    option (api.post) = "/checkout/waiting";
-  }
-  rpc CheckoutResult(common.Empty) returns (common.Empty) {
-    option (api.get) = "/checkout/result";
-  }
   rpc CheckoutOrder(CheckoutOrderReq) returns (common.Empty) {
     option (api.post) = "/checkout/order";
   }

@@ -20,6 +20,4 @@ func Register(r *server.Hertz) {
 	root.POST("/checkout", append(_checkout0Mw(), checkout.Checkout)...)
 	_checkout := root.Group("/checkout", _checkoutMw()...)
 	_checkout.POST("/order", append(_checkoutorderMw(), checkout.CheckoutOrder)...)
-	_checkout.GET("/result", append(_checkoutresultMw(), checkout.CheckoutResult)...)
-	_checkout.POST("/waiting", append(_checkoutwaitingMw(), checkout.CheckoutWaiting)...)
 }
