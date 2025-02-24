@@ -172,3 +172,195 @@ go work use .
 go mod tidy
 go get github.com/durango/go-credit-card
 ```
+
+项目目录结构
+```
+gomall/
+├── app/
+│   ├── auth/
+│   │   ├── biz/
+│   │   │   ├── service/
+│   │   ├── conf/
+│   │   │   ├── dev/
+│   │   │   ├── online/
+│   │   │   ├── test/
+│   │   ├── log/
+│   │   ├── script/
+│   │   ├── .env
+│   │   ├── build.sh
+│   │   ├── go.mod
+│   │   ├── handler.go
+│   │   ├── main.go
+│   ├── cart/
+│   │   ├── biz/
+│   │   │   ├── dal/
+│   │   │   │   ├── mysql/
+│   │   │   │   ├── redis/
+│   │   │   ├── model/
+│   │   │   ├── service/
+│   │   ├── conf/
+│   │   │   ├── dev/
+│   │   │   ├── online/
+│   │   │   ├── test/
+│   │   ├── log/
+│   │   ├── rpc/
+│   │   ├── script/
+│   │   ├── .env
+│   │   ├── build.sh
+│   │   ├── go.mod
+│   │   ├── handler.go
+│   │   ├── main.go
+│   ├── checkout/
+│   │   ├── biz/
+│   │   │   ├── dal/
+│   │   │   │   ├── mysql/
+│   │   │   │   ├── redis/
+│   │   │   ├── service/
+│   │   ├── conf/
+│   │   │   ├── dev/
+│   │   │   ├── online/
+│   │   │   ├── test/
+│   │   ├── log/
+│   │   ├── rpc/
+│   │   ├── script/
+│   │   ├── .env
+│   │   ├── build.sh
+│   │   ├── go.mod
+│   │   ├── handler.go
+│   │   ├── main.go
+│   ├── client/
+│   │   ├── biz/
+│   │   │   ├── handler/
+│   │   │   │   ├── cart/
+│   │   │   │   ├── checkout/
+│   │   │   │   ├── order/
+│   │   │   │   ├── product/
+│   │   │   │   ├── user/
+│   │   │   ├── router/
+│   │   │   │   ├── cart/
+│   │   │   │   ├── checkout/
+│   │   │   │   ├── order/
+│   │   │   │   ├── product/
+│   │   │   │   ├── user/
+│   │   │   ├── service/
+│   │   │   ├── utils/
+│   │   ├── conf/
+│   │   │   ├── dev/
+│   │   │   ├── online/
+│   │   │   ├── test/
+│   │   ├── hertz_gen/
+│   │   │   ├── api/
+│   │   │   ├── client/
+│   │   │   │   ├── cart/
+│   │   │   │   ├── checkout/
+│   │   │   │   ├── common/
+│   │   │   │   ├── order/
+│   │   │   │   ├── product/
+│   │   │   │   ├── user/
+│   │   ├── infra/
+│   │   │   ├── rpc/
+│   │   ├── log/
+│   │   ├── middleware/
+│   │   ├── script/
+│   │   ├── utils/
+│   │   ├── .env
+│   │   ├── .hz
+│   │   ├── build.sh
+│   │   ├── go.mod
+│   │   ├── main.go
+│   ├── order/
+│   │   ├── biz/
+│   │   │   ├── dal/
+│   │   │   │   ├── mysql/
+│   │   │   │   ├── redis/
+│   │   │   ├── model/
+│   │   │   ├── service/
+│   │   ├── conf/
+│   │   │   ├── dev/
+│   │   │   ├── online/
+│   │   │   ├── test/
+│   │   ├── log/
+│   │   ├── rpc/
+│   │   ├── script/
+│   │   ├── .env
+│   │   ├── build.sh
+│   │   ├── go.mod
+│   │   ├── handler.go
+│   │   ├── main.go
+│   ├── payment/
+│   │   ├── biz/
+│   │   │   ├── dal/
+│   │   │   │   ├── mysql/
+│   │   │   │   ├── redis/
+│   │   │   ├── model/
+│   │   │   ├── service/
+│   │   ├── conf/
+│   │   │   ├── dev/
+│   │   │   ├── online/
+│   │   │   ├── test/
+│   │   ├── log/
+│   │   ├── script/
+│   │   ├── .env
+│   │   ├── build.sh
+│   │   ├── go.mod
+│   │   ├── handler.go
+│   │   ├── main.go
+│   ├── product/
+│   │   ├── biz/
+│   │   │   ├── dal/
+│   │   │   │   ├── mysql/
+│   │   │   │   ├── redis/
+│   │   │   ├── model/
+│   │   │   ├── service/
+│   │   ├── conf/
+│   │   │   ├── dev/
+│   │   │   ├── online/
+│   │   │   ├── test/
+│   │   ├── log/
+│   │   ├── script/
+│   │   ├── .env
+│   │   ├── build.sh
+│   │   ├── go.mod
+│   │   ├── handler.go
+│   │   ├── main.go
+│   ├── user/
+│   │   ├── biz/
+│   │   │   ├── dal/
+│   │   │   │   ├── mysql/
+│   │   │   │   ├── redis/
+│   │   │   ├── model/
+│   │   │   ├── service/
+│   │   ├── conf/
+│   │   │   ├── dev/
+│   │   │   ├── online/
+│   │   │   ├── test/
+│   │   ├── log/
+│   │   ├── script/
+│   │   ├── .env
+│   │   ├── build.sh
+│   │   ├── go.mod
+│   │   ├── handler.go
+│   │   ├── main.go
+├── common/
+│   ├── clientsuite/
+│   ├── mtl/
+│   ├── serversuite/
+│   ├── utils/
+│   ├── go.mod
+├── conf/
+├── db/
+│   ├── sql/
+│   │   ├── ini/
+├── deploy/
+│   ├── config/
+├── idl/
+│   ├── client/
+├── rpc_gen/
+│   ├── kitex_gen/
+│   ├── rpc/
+│   ├── go.mod
+├── docker-compose.yaml
+├── go.work
+├── Makefile
+├── README.md
+```
